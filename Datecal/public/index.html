@@ -27,6 +27,10 @@
             <input type="radio" name="installmentPeriod" id="fifthday">15 วัน
             <span class="checkmark"></span>
         </label><br>
+        <label class="container">
+            <input type="radio" name="installmentPeriod" id="month">รายเดือน
+            <span class="checkmark"></span>
+        </label><br>
         <br><label for="start_date">เริ่ม</label>
         <input type="date" id="start_date">
         <br>
@@ -42,7 +46,7 @@
     </form>
 
     <script>
-         function copyText() {
+        function copyText() {
             var field = document.getElementById("field");
             var range = document.createRange();
             range.selectNode(field);
@@ -80,7 +84,7 @@
 
 
         function getDate() {
-            
+
             var dateField = document.getElementById("start_date");
             var count = parseInt(document.getElementById("count").value); // แปลงค่าเป็นตัวเลขจาก input
             var price = document.getElementById("price").value;
@@ -89,6 +93,16 @@
 
             var selectedDate = new Date(dateField.value);
             var newText = ""; // สร้างตัวแปรสำหรับเก็บข้อความที่จะแสดง
+
+            if (document.getElementById("month").checked) {
+                for (var i = 0; i < count; i++) {
+                    // เพิ่มเดือนลงไปที่เลือก
+                    selectedDate.setMonth(selectedDate.getMonth() + 1);
+                    // สร้างวันที่ในรูปแบบที่กำหนด (พ.ศ.)
+                    var formattedDate = ('0' + selectedDate.getDate()).slice(-2) + '-' + ('0' + (selectedDate.getMonth() + 1)).slice(-2) + '-' + (selectedDate.getFullYear() + 543).toString().substr(-2);
+                    newText += (i + 1) + "." + formattedDate + "=" + price + "❌" + "<br>";
+                }
+            }
 
             if (document.getElementById("daily").checked) {
                 for (var i = 0; i < count; i++) {
